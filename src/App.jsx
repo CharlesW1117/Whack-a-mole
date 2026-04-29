@@ -1,20 +1,34 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useReducer } from "react";
 import Field from "./Field";
 
+const initialState = { score: 0, highScore: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "increaseScore":
+      return { ...state, score: state.score + 1 };
+    case "resetScore":
+      return { ...state, score: 0 };
+    case "setHighScoreFromCurrent":
+      return { ...state, highScore: Math.max(state.highScore, state.score) };
+    default:
+      return state;
+  }
+}
+
 export default function App() {
-  const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15);
   const [isGameOver, setIsGameOver] = useState(false);
   const timerRef = useRef(null);
 
   function increaseScore() {
-    setScore(score + 1);
+    dispatch({ type: "increaseScore" });
   }
 
   function startGame() {
-    setScore(0);
+    dispatch({ type: "resetScore" });
     setTimeLeft(15);
     setIsPlaying(true);
     setIsGameOver(false);
@@ -25,7 +39,7 @@ export default function App() {
   }
 
   function restartGame() {
-    if (score > highScore) setHighScore(score);
+    dispatch({ type: "setHighScoreFromCurrent" });
     setIsPlaying(false);
     setIsGameOver(false);
     clearInterval(timerRef.current);
@@ -36,7 +50,7 @@ export default function App() {
       clearInterval(timerRef.current);
       setIsPlaying(false);
       setIsGameOver(true);
-      if (score > highScore) setHighScore(score);
+      dispatch({ type: "setHighScoreFromCurrent" });
     }
   }, [timeLeft, isPlaying]);
 
@@ -47,19 +61,19 @@ export default function App() {
       {!isPlaying && !isGameOver ? (
         <div className="welcome">
           <p>Welcome! Whack the mole when it appears to earn points.</p>
-          <p>High Score: {highScore}</p>
+          <p>High Score: {state.highScore}</p>
           <button onClick={startGame}>Play</button>
         </div>
       ) : isGameOver ? (
         <div className="game-over">
           <h2>Game Over!</h2>
-          <p>Your final score: {score}</p>
-          <p>High Score: {highScore}</p>
+          <p>Your final score: {state.score}</p>
+          <p>High Score: {state.highScore}</p>
           <button onClick={restartGame}>Restart</button>
         </div>
       ) : (
         <div className="game">
-          <h2>Score: {score}</h2>
+          <h2>Score: {state.score}</h2>
           <h3>Time Left: {timeLeft}s</h3>
           <button onClick={restartGame}>Restart</button>
           <Field increaseScore={increaseScore} />
