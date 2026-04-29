@@ -119,3 +119,31 @@ button:hover {
   font-weight: bold;
   cursor: pointer;
 }
+/* adding a fade in animation for the game over screen with a glow */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.game-over {
+  text-align: center;
+  color: #ff6600;
+  font-weight: bold;
+  margin-top: 2rem;
+  animation: fadeIn 1s ease-in;
+}
+
+.game-over h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px #ff7315, 0 0 20px #78f305;
+}
+
+
