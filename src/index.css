@@ -2,14 +2,6 @@
   text-align: center;
 }
 
-button {
-  margin: 1rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-
 .field {
   list-style: none;
   display: grid;
@@ -21,15 +13,10 @@ button {
   margin: 0 auto;
 }
 
-.hole {
-  background: url("/hole.png") no-repeat center/contain;
-}
-
-.mole {
-  background-image: url("/mole.png");
-}
-
 body {
+  background: url("/background.png") no-repeat center center fixed;
+  background-size: cover;
+  font-family: "Comic Sans MS", cursive, sans-serif;
   background-color: #b0b0b0;
   font-family: "Comic Sans MS", cursive, sans-serif;
 }
@@ -99,26 +86,6 @@ button:hover {
   font-weight: bold;
 }
 
-.game-over {
-  text-align: center;
-  color: #ff6600;
-  font-weight: bold;
-  margin-top: 2rem;
-}
-
-.game-over h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.game-over button {
-  background-color: #ffcc00;
-  border: 2px solid #333;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  cursor: pointer;
-}
 /* adding a fade in animation for the game over screen with a glow */
 
 @keyframes fadeIn {
@@ -134,7 +101,7 @@ button:hover {
 
 .game-over {
   text-align: center;
-  color: #ff6600;
+  color: #080502;
   font-weight: bold;
   margin-top: 2rem;
   animation: fadeIn 1s ease-in;
